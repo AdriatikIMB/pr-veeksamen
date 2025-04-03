@@ -41,17 +41,15 @@ def userlist():
 def submit():
     username = request.form['username']
     password = request.form['password']
-    try:
-        conn = get_db_connection()
-        cursor = conn.cursor()
+    conn = get_db_connection()
+    cursor = conn.cursor()
         
-        cursor.execute("INSERT INTO user (username, password) VALUES (%s, %s)", (username, password))  
-        conn.commit()
-        cursor.close()
-        conn.close()
-    except mysql.connector.errors.IntegrityError:
-        
-        return "email not valid"
+    cursor.execute("INSERT INTO user (username, password) VALUES (%s, %s)", (username, password))  
+    conn.commit()
+    
+    cursor.close()
+    conn.close()
+
     return redirect(url_for('index'))
 
 if __name__ == '__main__':
