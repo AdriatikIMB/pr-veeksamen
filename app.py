@@ -21,22 +21,37 @@ def index():
     users = cursor.fetchall()
     cursor.close()
     conn.close()
-    return render_template('index.html', users=users)  
+    return render_template('index.html', user=users)  
+
+
+@app.route('/userlist')
+def userlist():
+    conn = get_db_connection()
+    cursor = conn.cursor(dictionary=True)
+    cursor.execute("SELECT * FROM user")  
+    users = cursor.fetchall()
+    cursor.close()
+    conn.close()
+    return render_template('userlist.html', users=users)
+
+
 
 
 @app.route('/submit', methods=['POST'])
 def submit():
     username = request.form['username']
     password = request.form['password']
-    
-    conn = get_db_connection()
-    cursor = conn.cursor()
-    
-    cursor.execute("INSERT INTO user (username, password) VALUES (%s, %s)", (username, password))  
-    conn.commit()
-    cursor.close()
-    conn.close()
-    
+    try:
+        conn = get_db_connection()
+        cursor = conn.cursor()
+        
+        cursor.execute("INSERT INTO user (username, password) VALUES (%s, %s)", (username, password))  
+        conn.commit()
+        cursor.close()
+        conn.close()
+    except mysql.connector.errors.IntegrityError:
+        
+        return "email not valid"
     return redirect(url_for('index'))
 
 if __name__ == '__main__':
