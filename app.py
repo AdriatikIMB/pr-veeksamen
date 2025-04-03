@@ -16,12 +16,8 @@ def get_db_connection():
 @app.route('/')
 def index():
     conn = get_db_connection()
-    cursor = conn.cursor(dictionary=True)
-    cursor.execute("SELECT * FROM user")  
-    users = cursor.fetchall()
-    cursor.close()
     conn.close()
-    return render_template('index.html', user=users)  
+    return render_template('index.html')  
 
 
 @app.route('/userlist')
