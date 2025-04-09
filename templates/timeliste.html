@@ -4,27 +4,24 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Legg til bruker</title>
+    <script src="{{ url_for('static', filename='js/confirmation.js') }}"></script>
 </head>
 <body>
-    <a href="{{ url_for('index') }}">Tilbake til index</a> 
+    <a href="{{ url_for('index') }}">Tilbake til første side</a> 
+    
     <h1>Legge til bruker</h1>
 
-
-
-    <form action="/submit" method="post"> 
+    <form action="/submit" method="post" onsubmit="showConfirmation()">
         <label for="username">Brukernavn:</label>
-        <input type="text" id="username" name="username">
+        <input type="text" id="username" name="username" required><br><br>
+
         <label for="password">Passord:</label>
-        <input type="password" id="password" name="password"><br><br>
-        <label for="phone">Telefon</label>
-        <input type="phone" id="phone" name="phone" pattern="^\+47\d{8}$" ><br><br>
+        <input type="password" id="password" name="password" required><br><br>
+
+        <label for="phone">Telefon:</label>
+        <input type="tel" id="phone" name="phone" pattern="^\+47\d{8}$" placeholder="+4712345678" required><br><br>
+
         <button type="submit">Lagre bruker</button> 
     </form>
-
-
-
-
-
-
 </body>
 </html>

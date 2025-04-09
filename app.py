@@ -1,9 +1,9 @@
-from flask import Flask , render_template, redirect, request, url_for 
+from flask import Flask , render_template, redirect, request, url_for
 import mysql.connector
 
 app = Flask(__name__)
 
-# Function to connect to the database
+# Funkjson for å koble til databasen
 def get_db_connection():
     return mysql.connector.connect(
         user="adriatik",
@@ -15,29 +15,35 @@ def get_db_connection():
 
 @app.route('/')
 def index():
-    return render_template('index.html')  # Show the index page
+    return render_template('index.html') 
+
 
 @app.route('/timeliste')
 def timeliste():
+    return render_template('timeliste.html') 
 
-    
-    return render_template('timeliste.html')  # Show the timeliste page
 
 @app.route('/submit', methods=['POST'])
 def submit():
+    
     if request.method == 'POST':
         username = request.form['username']
         password = request.form['password']
         phone = request.form['phone']
         
-
+    try:
         conn = get_db_connection()
         cursor = conn.cursor()
         cursor.execute("INSERT INTO test (username, password, phone) VALUES (%s, %s, %s)", (username, password, phone))
         conn.commit()
         cursor.close()
         conn.close()
-        return redirect(url_for('timeliste'))  # Redirect back to timeliste page after form submission
+        return redirect(url_for('timeliste')) 
+    except mysql.connector.errors.IntegrityError:
+        print("Brukernavn finnes allerede. Vennligst velg et annet.")
+        return redirect(url_for('timeliste'))
+
+        
 
 if __name__ == '__main__':
     app.run(debug=True)
