@@ -2,20 +2,11 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Users</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Timeliste</title>
 </head>
 <body>
 
-    <form action="/submit" id="form" method="POST">
-        <label for="username">Brukernavn:</label>
-        <input type="text" id="username" name="username" required><br><br>
-        <label for="password">Passord:</label>
-        <input type="password" id="password" name="password" required><br><br>
-        
-        <button type="submit">Send inn</button>
-    </form>
-    <a href="{{ url_for('userlist') }}">Se brukerliste</a>
-
- 
+    <a href="{{ url_for('timeliste') }}">Timeliste</a>
 </body>
 </html>

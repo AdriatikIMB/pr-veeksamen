@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Legg til bruker</title>
+</head>
+<body>
+    <a href="{{ url_for('index') }}">Tilbake til index</a> 
+    <h1>Legge til bruker</h1>
+
+
+
+    <form action="/submit" method="post"> 
+        <label for="username">Brukernavn:</label>
+        <input type="text" id="username" name="username">
+        <label for="password">Passord:</label>
+        <input type="password" id="password" name="password"><br><br>
+        <label for="phone">Telefon</label>
+        <input type="phone" id="phone" name="phone" pattern="^\+47\d{8}$" ><br><br>
+        <button type="submit">Lagre bruker</button> 
+    </form>
+
+
+
+
+
+
+</body>
+</html>

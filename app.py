@@ -1,7 +1,7 @@
-from flask import Flask, render_template, redirect, request, url_for
-import mysql.connector 
+from flask import Flask , render_template, redirect, request, url_for 
+import mysql.connector
 
-app = Flask(__name__) 
+app = Flask(__name__)
 
 # Function to connect to the database
 def get_db_connection():
@@ -15,38 +15,29 @@ def get_db_connection():
 
 @app.route('/')
 def index():
-    conn = get_db_connection()
-    conn.close()
-    return render_template('index.html')  
+    return render_template('index.html')  # Show the index page
 
+@app.route('/timeliste')
+def timeliste():
 
-@app.route('/userlist')
-def userlist():
-    conn = get_db_connection()
-    cursor = conn.cursor(dictionary=True)
-    cursor.execute("SELECT * FROM user")  
-    users = cursor.fetchall()
-    cursor.close()
-    conn.close()
-    return render_template('userlist.html', users=users)
-
-
-
+    
+    return render_template('timeliste.html')  # Show the timeliste page
 
 @app.route('/submit', methods=['POST'])
 def submit():
-    username = request.form['username']
-    password = request.form['password']
-    conn = get_db_connection()
-    cursor = conn.cursor()
+    if request.method == 'POST':
+        username = request.form['username']
+        password = request.form['password']
+        phone = request.form['phone']
         
-    cursor.execute("INSERT INTO user (username, password) VALUES (%s, %s)", (username, password))  
-    conn.commit()
-    
-    cursor.close()
-    conn.close()
 
-    return redirect(url_for('index'))
+        conn = get_db_connection()
+        cursor = conn.cursor()
+        cursor.execute("INSERT INTO test (username, password, phone) VALUES (%s, %s, %s)", (username, password, phone))
+        conn.commit()
+        cursor.close()
+        conn.close()
+        return redirect(url_for('timeliste'))  # Redirect back to timeliste page after form submission
 
 if __name__ == '__main__':
     app.run(debug=True)
