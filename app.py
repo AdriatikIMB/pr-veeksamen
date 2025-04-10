@@ -22,6 +22,11 @@ def index():
 def timeliste():
     return render_template('timeliste.html') 
 
+@app.route('/ansatt_timeliste')
+def ansatt_timeliste():
+
+    return render_template('ansatt_timeliste.html')  
+
 
 @app.route('/submit', methods=['POST'])
 def submit():
@@ -43,7 +48,8 @@ def submit():
         print("Brukernavn finnes allerede. Vennligst velg et annet.")
         return redirect(url_for('timeliste'))
 
-        
+
+
 
 if __name__ == '__main__':
     app.run(debug=True)

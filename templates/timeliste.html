@@ -4,11 +4,11 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Legg til bruker</title>
-    <script src="{{ url_for('static', filename='js/confirmation.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/script.js') }}"></script>
 </head>
 <body>
     <a href="{{ url_for('index') }}">Tilbake til første side</a> 
-    
+
     <h1>Legge til bruker</h1>
 
     <form action="/submit" method="post" onsubmit="showConfirmation()">
@@ -23,5 +23,6 @@
 
         <button type="submit">Lagre bruker</button> 
     </form>
+    <a href="{{ url_for('ansatt_timeliste') }}">Timeliste</a>
 </body>
 </html>
