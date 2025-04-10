@@ -1,13 +1,56 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="no">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>test</title>
+    <title>Registrer Timer</title>
 </head>
 <body>
-    <h1>Timeliste</h1>
-    <a href="{{ url_for('timeliste') }}">Tilbake til første side</a> 
-    
+
+    <h1>Registrer Timer</h1>
+
+    <form action="{{ url_for('registrer_timer') }}" method="post">
+
+        <label for="prosjekt">Prosjekt:</label>
+        <select id="prosjekt" name="prosjekt" required>
+            <option value="">--Velg prosjekt--</option>
+            <option value="Prosjekt A">Prosjekt A</option>
+            <option value="Prosjekt B">Prosjekt B</option>
+            <option value="Prosjekt C">Prosjekt C</option>
+        </select><br><br>
+
+        <label for="arbeidsleder">Arbeidsleder:</label>
+        <select id="arbeidsleder" name="arbeidsleder" required>
+            <option value="">--Velg arbeidsleder--</option>
+            <option value="Ola Nordmann">Ola Nordmann</option>
+            <option value="Kari Nordmann">Kari Nordmann</option>
+            <option value="Ali Reza">Ali Reza</option>
+        </select><br><br>
+
+        <label for="prosent">Prosent:</label>
+        <select id="prosent" name="prosent" required>
+            <option value="">--Velg--</option>
+            <option value="100">100%</option>
+            <option value="50">50%</option>
+            <option value="25">25%</option>
+        </select><br><br>
+
+        <label for="timer">Antall Timer:</label>
+        <input type="number" id="timer" name="timer" min="0" required><br><br>
+
+        <label for="type_timer">Type Timer:</label>
+        <select id="type_timer" name="type_timer" required>
+            <option value="">--Velg type--</option>
+            <option value="vanlig">Vanlig</option>
+            <option value="overtid">Overtid</option>
+            <option value="helg">Helg</option>
+        </select><br><br>
+
+        <button type="submit">Lagre</button>
+    </form>
+
+    <br>
+    <a href="{{ url_for('index') }}">Tilbake til forsiden</a>
+
 </body>
 </html>

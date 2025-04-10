@@ -1,4 +1,4 @@
-from flask import Flask , render_template, redirect, request, url_for
+from flask import Flask, render_template, redirect, request, url_for
 import mysql.connector
 
 app = Flask(__name__)
@@ -34,8 +34,7 @@ def submit():
     if request.method == 'POST':
         username = request.form['username']
         password = request.form['password']
-        phone = request.form['phone']
-        
+        phone = request.form['phone']       
     try:
         conn = get_db_connection()
         cursor = conn.cursor()
@@ -47,6 +46,28 @@ def submit():
     except mysql.connector.errors.IntegrityError:
         print("Brukernavn finnes allerede. Vennligst velg et annet.")
         return redirect(url_for('timeliste'))
+    
+    
+@app.route('/registrer_timer', methods=['POST'])
+def registrer_timer():
+    prosjekt = request.form['prosjekt']
+    arbeidsleder = request.form['arbeidsleder']
+    prosent = request.form['prosent']
+    timer = request.form['timer']
+    type_timer = request.form['type_timer']
+
+    conn = get_db_connection()
+    cursor = conn.cursor()
+    cursor.execute("""
+        INSERT INTO timelister (prosjekt, arbeidsleder, prosent, timer, type_timer)
+        VALUES (%s, %s, %s, %s, %s)
+    """, (prosjekt, arbeidsleder, prosent, timer, type_timer))
+    conn.commit()
+    cursor.close()
+    conn.close()
+
+    return redirect(url_for('timeliste'))
+
 
 
 
