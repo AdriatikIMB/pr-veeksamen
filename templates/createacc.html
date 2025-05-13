@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Opprett konto</title>
+</head>
+<body>
+<h1>Lag bruker</h1>
+<form method="post">
+    <input name="username" placeholder="Brukernavn" required><br>
+    <input type="password" name="password" placeholder="Passord" required><br>
+    <input name="phone" placeholder="Telefon +4712345678" pattern="^\+47\d{8}$" required><br>
+    <button type="submit">Opprett</button>
+</form>
+<a href="{{ url_for('index') }}">Tilbake</a>
+
+</body>
+</html>

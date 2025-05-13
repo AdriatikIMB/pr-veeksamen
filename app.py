@@ -1,12 +1,14 @@
-from flask import Flask, render_template, redirect, request, url_for
+from flask import Flask, render_template, redirect, request, url_for, session
 import mysql.connector
 
 app = Flask(__name__)
+app.secret_key = 'noe_sikkert_her'
+
 
 # Funkjson for å koble til databasen
 def get_db_connection():
     return mysql.connector.connect(
-        user="adriatik",
+        user="adriatikveseli",
         password="Adriatik.123",
         database="restaurant",
         host="10.2.4.76",
@@ -15,38 +17,68 @@ def get_db_connection():
 
 @app.route('/')
 def index():
+    
     return render_template('index.html') 
-
 
 @app.route('/timeliste')
 def timeliste():
-    return render_template('timeliste.html') 
+    if 'username' not in session:
+        return redirect(url_for('index'))
+    return render_template('timeliste.html')
 
 @app.route('/ansatt_timeliste')
 def ansatt_timeliste():
+    if 'username' not in session:
+        return redirect(url_for('index'))
+    return render_template('ansatt_timeliste.html')
 
-    return render_template('ansatt_timeliste.html')  
 
 
 @app.route('/submit', methods=['POST'])
 def submit():
+    username = request.form['username']
+    password = request.form['password']
+
+    conn = get_db_connection()
+    cursor = conn.cursor()
+    cursor.execute("SELECT * FROM test WHERE username=%s AND password=%s", (username, password))
+    user = cursor.fetchone()
+    cursor.close()
+    conn.close()
+
+    if user:
+        session['username'] = username
+        return redirect(url_for('timeliste'))
+    else:
+        return "Feil brukernavn eller passord. <a href='/'>Prøv igjen</a>"
+
     
+    
+@app.route('/createacc', methods=['GET', 'POST'])
+def createacc():
     if request.method == 'POST':
         username = request.form['username']
         password = request.form['password']
-        phone = request.form['phone']       
-    try:
-        conn = get_db_connection()
-        cursor = conn.cursor()
-        cursor.execute("INSERT INTO test (username, password, phone) VALUES (%s, %s, %s)", (username, password, phone))
-        conn.commit()
-        cursor.close()
-        conn.close()
-        return redirect(url_for('timeliste')) 
-    except mysql.connector.errors.IntegrityError:
-        print("Brukernavn finnes allerede. Vennligst velg et annet.")
-        return redirect(url_for('timeliste'))
-    
+        phone = request.form['phone']
+        try:
+            conn = get_db_connection()
+            cursor = conn.cursor()
+            cursor.execute("INSERT INTO test (username, password, phone) VALUES (%s, %s, %s)", (username, password, phone))
+            conn.commit()
+            cursor.close()
+            conn.close()
+            session['username'] = username
+            return redirect(url_for('timeliste'))
+        except mysql.connector.errors.IntegrityError:
+            return "Brukernavn finnes allerede. <a href='/createacc'>Prøv igjen</a>"
+    return render_template('createacc.html')
+
+@app.route('/logout')
+def logout():
+    session.clear()
+    return redirect(url_for('index'))
+
+
     
 @app.route('/registrer_timer', methods=['POST'])
 def registrer_timer():
