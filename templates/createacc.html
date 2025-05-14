@@ -3,16 +3,18 @@
 <head>
     <meta charset="UTF-8">
     <title>Opprett konto</title>
+        <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+
 </head>
-<body>
+<body class="createacc-page">
 <h1>Lag bruker</h1>
-<form method="post">
+<form method="post" class="createacc-form">
     <input name="username" placeholder="Brukernavn" required><br>
     <input type="password" name="password" placeholder="Passord" required><br>
     <input name="phone" placeholder="Telefon +4712345678" pattern="^\+47\d{8}$" required><br>
     <button type="submit">Opprett</button>
 </form>
-<a href="{{ url_for('timeliste') }}">Tilbake</a>
-
+<a class="back-link" href="{{ url_for('timeliste') }}">Tilbake</a>
 </body>
+
 </html>
