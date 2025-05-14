@@ -17,19 +17,14 @@ def get_db_connection():
 
 @app.route('/')
 def index():
-    
     return render_template('index.html') 
 
 @app.route('/timeliste')
 def timeliste():
-    if 'username' not in session:
-        return redirect(url_for('index'))
     return render_template('timeliste.html')
 
 @app.route('/ansatt_timeliste')
 def ansatt_timeliste():
-    if 'username' not in session:
-        return redirect(url_for('index'))
     return render_template('ansatt_timeliste.html')
 
 
@@ -41,16 +36,28 @@ def submit():
 
     conn = get_db_connection()
     cursor = conn.cursor()
-    cursor.execute("SELECT * FROM test WHERE username=%s AND password=%s", (username, password))
+
+    # Check if username exists first
+    cursor.execute("SELECT * FROM test WHERE username=%s", (username,))
     user = cursor.fetchone()
+
+    if not user:
+        cursor.close()
+        conn.close()
+        return "Brukeren finnes ikke. <a href='/createacc'>Opprett en konto først</a>"
+
+    # Check if password is correct
+    cursor.execute("SELECT * FROM test WHERE username=%s AND password=%s", (username, password))
+    valid_user = cursor.fetchone()
     cursor.close()
     conn.close()
 
-    if user:
+    if valid_user:
         session['username'] = username
         return redirect(url_for('timeliste'))
     else:
-        return "Feil brukernavn eller passord. <a href='/'>Prøv igjen</a>"
+        return "Feil passord. <a href='/'>Prøv igjen</a>"
+
 
     
     
@@ -98,8 +105,7 @@ def registrer_timer():
     cursor.close()
     conn.close()
 
-    return redirect(url_for('timeliste'))
-
+    return redirect(url_for('timeliste', registrert='true'))
 
 
 
