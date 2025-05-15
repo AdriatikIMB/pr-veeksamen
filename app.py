@@ -1,8 +1,7 @@
-from flask import Flask, render_template, redirect, request, url_for, session
+from flask import Flask, render_template, redirect, request, url_for
 import mysql.connector
 
 app = Flask(__name__)
-app.secret_key = 'noe_sikkert_her'
 
 
 # Funkjson for å koble til databasen
@@ -51,7 +50,6 @@ def submit():
     conn.close()
 
     if valid_user:
-        session['username'] = username
         return redirect(url_for('ansatt_timeliste')) 
     else:
         return "Feil passord. <a href='/timeliste'>Prøv igjen</a>"
@@ -69,7 +67,6 @@ def createacc():
             conn.commit()
             cursor.close()
             conn.close()
-            session['username'] = username
             return redirect(url_for('timeliste'))
         except mysql.connector.errors.IntegrityError:
             return "Brukernavn finnes allerede. <a href='/createacc'>Prøv igjen</a>"
