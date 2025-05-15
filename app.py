@@ -54,6 +54,8 @@ def submit():
     else:
         return "Feil passord. <a href='/timeliste'>Prøv igjen</a>"
     
+    
+    
 @app.route('/createacc', methods=['GET', 'POST'])
 def createacc():
     if request.method == 'POST':
@@ -94,6 +96,9 @@ def registrer_timer():
     conn.close()
 
     return render_template('time_registrert.html', registrert=True)
+
+
+
 
 @app.route('/glemt_passord', methods=['GET', 'POST'])
 def glemt_passord():
