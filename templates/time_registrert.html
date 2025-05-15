@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Timer registrert</title>
+</head>
+<body>
+    {% if registrert %}
+        <p style="color: green;">✅ Timer er registrert!</p>
+    {% else %}
+        <p style="color: red;">❌ Ingen timer registrert.</p>
+    {% endif %}
+
+    <br>
+    <a href="{{ url_for('timeliste') }}">Tilbake til registrering</a><br>
+</body>
+</html>

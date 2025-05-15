@@ -12,7 +12,7 @@
 
     <a href="{{ url_for('index') }}">Tilbake til første side</a> 
 
-    <h1>Legge til bruker</h1>
+    <h1>Logg inn</h1>
 
     <form action="/submit" method="post" onsubmit="showConfirmation()">
         <label for="username">Brukernavn:</label>
@@ -25,13 +25,12 @@
         <input type="tel" id="phone" name="phone" pattern="^\+47\d{8}$" placeholder="+4712345678" required><br><br>
 
 
-        <button type="submit">Lagre bruker</button> 
+        <button type="submit">Login</button> 
         <div>
         <a href="{{ url_for('createacc') }}">Opprett konto hvis du ikke har allerede</a>
         </div>
     </form>
 
-   <a href="{{ url_for('ansatt_timeliste') }}">Timeliste</a>
    
    
 </body>

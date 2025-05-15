@@ -37,7 +37,6 @@ def submit():
     conn = get_db_connection()
     cursor = conn.cursor()
 
-    # Check if username exists first
     cursor.execute("SELECT * FROM test WHERE username=%s", (username,))
     user = cursor.fetchone()
 
@@ -46,7 +45,6 @@ def submit():
         conn.close()
         return "Brukeren finnes ikke. <a href='/createacc'>Opprett en konto først</a>"
 
-    # Check if password is correct
     cursor.execute("SELECT * FROM test WHERE username=%s AND password=%s", (username, password))
     valid_user = cursor.fetchone()
     cursor.close()
@@ -54,12 +52,9 @@ def submit():
 
     if valid_user:
         session['username'] = username
-        return redirect(url_for('timeliste'))
+        return redirect(url_for('ansatt_timeliste')) 
     else:
-        return "Feil passord. <a href='/'>Prøv igjen</a>"
-
-
-    
+        return "Feil passord. <a href='/timeliste'>Prøv igjen</a>"
     
 @app.route('/createacc', methods=['GET', 'POST'])
 def createacc():
@@ -80,10 +75,6 @@ def createacc():
             return "Brukernavn finnes allerede. <a href='/createacc'>Prøv igjen</a>"
     return render_template('createacc.html')
 
-@app.route('/logout')
-def logout():
-    session.clear()
-    return redirect(url_for('index'))
 
 
     
@@ -105,9 +96,7 @@ def registrer_timer():
     cursor.close()
     conn.close()
 
-    return redirect(url_for('timeliste', registrert='true'))
-
-
+    return render_template('time_registrert.html', registrert=True)
 
 
 if __name__ == '__main__':
