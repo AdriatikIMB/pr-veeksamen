@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="no">
+<head>
+    <meta charset="UTF-8">
+    <title>Glemt Passord</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+</head>
+<body>
+
+    <a href="{{ url_for('index') }}">← Tilbake til forsiden</a>
+
+    <h1>Glemt Passord</h1>
+
+    <form method="post">
+        <label for="username">Brukernavn:</label>
+        <input type="text" name="username" required>
+
+        <label for="phone">Telefon (+4712345678):</label>
+        <input type="tel" name="phone" required>
+
+        <button type="submit">Hent Passord</button>
+    </form>
+
+</body>
+</html>

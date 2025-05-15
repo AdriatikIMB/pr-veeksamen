@@ -1,4 +1,4 @@
-from flask import Flask, render_template, redirect, request, url_for
+from flask import Flask, render_template, redirect, request, url_for, session
 import mysql.connector
 
 app = Flask(__name__)
@@ -94,6 +94,27 @@ def registrer_timer():
     conn.close()
 
     return render_template('time_registrert.html', registrert=True)
+
+@app.route('/glemt_passord', methods=['GET', 'POST'])
+def glemt_passord():
+    if request.method == 'POST':
+        username = request.form['username']
+        phone = request.form['phone']
+
+        conn = get_db_connection()
+        cursor = conn.cursor()
+        cursor.execute("SELECT password FROM test WHERE username=%s AND phone=%s", (username, phone))
+        result = cursor.fetchone()
+        cursor.close()
+        conn.close()
+
+        if result:
+            passord = result[0]
+            return f"Ditt passord er: <strong>{passord}</strong> <br><a href='/'>Tilbake til forsiden</a>"
+        else:
+            return "Bruker ikke funnet. <a href='/glemt_passord'>Prøv igjen</a>"
+
+    return render_template('glemt_passord.html')
 
 
 if __name__ == '__main__':
