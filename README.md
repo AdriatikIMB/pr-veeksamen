@@ -49,7 +49,26 @@ Dette er et webbasert system hvor ansatte kan registrere sine arbeidstimer, og a
 Systemet er utviklet av **Adriatik Veseli**. For mer informasjon, kan du kontakte utvikleren.
 
 
+## Sikkerhet og forbedringer
+✅ Eksisterende:
 
+Enkel validering på HTML-skjema.
+
+Telefonnummervalidering via regex.
+
+## ⚠️ Anbefalte forbedringer:
+
+Hashing av passord (eks. med werkzeug.security).
+
+Bruk av Flask session for innlogging og autentisering.
+
+CSRF-beskyttelse ved skjemaer (bruk Flask-WTF).
+
+Input-sanitizing og feilhåndtering.
+
+Legg til logger og audit trail for registreringer.
+
+Utvid med brukerroller (admin/ansatt)
 
 # 📋 Timeliste- og Brukerregistreringssystem - Utviklerdokumentasjon
 
@@ -125,7 +144,6 @@ index.html: Forsiden hvor brukeren kan registrere seg eller logge inn.
 ansatt_timeliste.html: Skjema for ansatte til å registrere timer.
 timeliste.html: Vist oversikt over registrerte timer.
 /static/js: Inneholder JavaScript-filene som håndterer interaktiv funksjonalitet som bekreftelses-popup.
-script.js: JavaScript-fil for popup-bekreftelser og URL-parameterhåndtering.
 app.py: Flask-applikasjonen som håndterer routing, innlogging og databasen.
 
 🛠️ Teknologier brukt
